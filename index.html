@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>コンセント負荷マップ</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="toolbar">
+        <div class="tool-group">
+            <button id="add-wall-outlet" class="tool-btn" title="壁コンセント">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg></span>
+            </button>
+            <button id="add-power-strip" class="tool-btn" title="延長コード">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M720-360v-80h80q17 0 28.5 11.5T840-400q0 17-11.5 28.5T800-360h-80Zm0 160v-80h80q17 0 28.5 11.5T840-240q0 17-11.5 28.5T800-200h-80Zm-160 40q-33 0-56.5-23.5T480-240h-80v-160h80q0-33 23.5-56.5T560-480h120v320H560ZM280-280q-66 0-113-47t-47-113q0-66 47-113t113-47h60q25 0 42.5-17.5T400-660q0-25-17.5-42.5T340-720H200q-17 0-28.5-11.5T160-760q0-17 11.5-28.5T200-800h140q58 0 99 41t41 99q0 58-41 99t-99 41h-60q-33 0-56.5 23.5T200-440q0 33 23.5 56.5T280-360h80v80h-80Z"/></svg></span>
+            </button>
+            <button id="add-device" class="tool-btn" title="デバイス">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M200-280q-33 0-56.5-23.5T120-360v-360q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720H620q-58 0-99 41t-41 99v300H200Zm420 120q-25 0-42.5-17.5T560-220v-360q0-25 17.5-42.5T620-640h200q25 0 42.5 17.5T880-580v360q0 25-17.5 42.5T820-160H620Zm-540 0v-80h400v80H80Zm640-300q13 0 21.5-9t8.5-21q0-13-8.5-21.5T720-520q-12 0-21 8.5t-9 21.5q0 12 9 21t21 9Z"/></svg></span>
+            </button>
+        </div>
+    </div>
+
+    <div id="zoom-controls" aria-label="ズーム">
+        <button id="zoom-in" class="tool-btn" title="拡大">＋</button>
+        <button id="zoom-out" class="tool-btn" title="縮小">－</button>
+    </div>
+
+    <div id="workspace-container">
+        <!-- Background Grid -->
+        <div id="workspace-bg"></div>
+        <!-- SVG layer for cables -->
+        <svg id="connections-layer"></svg>
+        <!-- Nodes will be added here -->
+        <div id="nodes-layer"></div>
+    </div>
+
+    <!-- Templates -->
+    <template id="tpl-wall-outlet">
+        <div class="node wall-outlet" data-type="outlet">
+            <div class="node-header">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg></span>
+                <input type="text" class="node-name" value="壁コンセント">
+                <button class="delete-btn" title="削除">×</button>
+            </div>
+            <div class="node-body">
+                <div class="spec-row">
+                    <label>許容(W)</label>
+                    <input type="number" class="spec-value limit-input" value="1500" min="0">
+                </div>
+                <div class="status-row">
+                    <span>使用量:</span>
+                    <span class="current-load">0</span> W
+                </div>
+            </div>
+            <!-- Outputs (Sockets) -->
+            <div class="sockets-container">
+                <div class="socket-port" title="差込口">
+                    <div class="port-point output-point"></div>
+                </div>
+                <button class="add-socket-btn" title="差込口を追加">＋</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-power-strip">
+        <div class="node power-strip" data-type="strip">
+            <!-- Input (Plug) -->
+            <div class="plug-container">
+                <div class="plug-port" title="プラグ（入力）">
+                    <div class="port-point input-point"></div>
+                </div>
+            </div>
+            <div class="node-header">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M720-360v-80h80q17 0 28.5 11.5T840-400q0 17-11.5 28.5T800-360h-80Zm0 160v-80h80q17 0 28.5 11.5T840-240q0 17-11.5 28.5T800-200h-80Zm-160 40q-33 0-56.5-23.5T480-240h-80v-160h80q0-33 23.5-56.5T560-480h120v320H560ZM280-280q-66 0-113-47t-47-113q0-66 47-113t113-47h60q25 0 42.5-17.5T400-660q0-25-17.5-42.5T340-720H200q-17 0-28.5-11.5T160-760q0-17 11.5-28.5T200-800h140q58 0 99 41t41 99q0 58-41 99t-99 41h-60q-33 0-56.5 23.5T200-440q0 33 23.5 56.5T280-360h80v80h-80Z"/></svg></span>
+                <input type="text" class="node-name" value="タップ">
+                <button class="delete-btn" title="削除">×</button>
+            </div>
+            <div class="node-body">
+                <div class="spec-row">
+                    <label>許容(W)</label>
+                    <input type="number" class="spec-value limit-input" value="1500" min="0">
+                </div>
+                <div class="status-row">
+                    <span>使用量:</span>
+                    <span class="current-load">0</span> W
+                </div>
+            </div>
+            <!-- Outputs (Sockets) -->
+            <div class="sockets-container">
+                <div class="socket-port" title="差込口">
+                    <div class="port-point output-point"></div>
+                </div>
+                <div class="socket-port" title="差込口">
+                    <div class="port-point output-point"></div>
+                </div>
+                <div class="socket-port" title="差込口">
+                    <div class="port-point output-point"></div>
+                </div>
+                <button class="add-socket-btn" title="差込口を追加">＋</button>
+            </div>
+        </div>
+    </template>
+
+    <template id="tpl-device">
+        <div class="node device" data-type="device">
+            <!-- Input (Plug) -->
+            <div class="plug-container">
+                <div class="plug-port" title="プラグ（入力）">
+                    <div class="port-point input-point"></div>
+                </div>
+            </div>
+            <div class="node-header">
+                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M200-280q-33 0-56.5-23.5T120-360v-360q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720H620q-58 0-99 41t-41 99v300H200Zm420 120q-25 0-42.5-17.5T560-220v-360q0-25 17.5-42.5T620-640h200q25 0 42.5 17.5T880-580v360q0 25-17.5 42.5T820-160H620Zm-540 0v-80h400v80H80Zm640-300q13 0 21.5-9t8.5-21q0-13-8.5-21.5T720-520q-12 0-21 8.5t-9 21.5q0 12 9 21t21 9Z"/></svg></span>
+                <input type="text" class="node-name" value="PC/家電">
+                <button class="delete-btn" title="削除">×</button>
+            </div>
+            <div class="node-body">
+                <div class="spec-row">
+                    <label>消費(W)</label>
+                    <input type="number" class="spec-value usage-input" value="100" min="0">
+                </div>
+            </div>
+        </div>
+    </template>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
