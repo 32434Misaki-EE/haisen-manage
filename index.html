@@ -9,21 +9,32 @@
 <body>
     <div id="toolbar">
         <div class="tool-group">
-            <button id="add-wall-outlet" class="tool-btn" title="壁コンセント">
-                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg></span>
+            <button id="add-wall-outlet" class="tool-btn" title="出力のみ">
+                <span class="icon"><img src="svgs/line_start_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" style="width: 24px; height: 24px;" /></span>
             </button>
-            <button id="add-power-strip" class="tool-btn" title="延長コード">
-                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M720-360v-80h80q17 0 28.5 11.5T840-400q0 17-11.5 28.5T800-360h-80Zm0 160v-80h80q17 0 28.5 11.5T840-240q0 17-11.5 28.5T800-200h-80Zm-160 40q-33 0-56.5-23.5T480-240h-80v-160h80q0-33 23.5-56.5T560-480h120v320H560ZM280-280q-66 0-113-47t-47-113q0-66 47-113t113-47h60q25 0 42.5-17.5T400-660q0-25-17.5-42.5T340-720H200q-17 0-28.5-11.5T160-760q0-17 11.5-28.5T200-800h140q58 0 99 41t41 99q0 58-41 99t-99 41h-60q-33 0-56.5 23.5T200-440q0 33 23.5 56.5T280-360h80v80h-80Z"/></svg></span>
+            <button id="add-power-strip" class="tool-btn" title="入力と出力">
+                <span class="icon"><img src="svgs/vital_signs_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" style="width: 24px; height: 24px;" /></span>
             </button>
-            <button id="add-device" class="tool-btn" title="デバイス">
-                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#555"><path d="M200-280q-33 0-56.5-23.5T120-360v-360q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720H620q-58 0-99 41t-41 99v300H200Zm420 120q-25 0-42.5-17.5T560-220v-360q0-25 17.5-42.5T620-640h200q25 0 42.5 17.5T880-580v360q0 25-17.5 42.5T820-160H620Zm-540 0v-80h400v80H80Zm640-300q13 0 21.5-9t8.5-21q0-13-8.5-21.5T720-520q-12 0-21 8.5t-9 21.5q0 12 9 21t21 9Z"/></svg></span>
+            <button id="add-device" class="tool-btn" title="入力のみ">
+                <span class="icon"><img src="svgs/line_end_24dp_E3E3E3_FILL1_wght400_GRAD0_opsz24.svg" style="width: 24px; height: 24px;" /></span>
             </button>
         </div>
     </div>
 
-    <div id="zoom-controls" aria-label="ズーム">
-        <button id="zoom-in" class="tool-btn" title="拡大">＋</button>
-        <button id="zoom-out" class="tool-btn" title="縮小">－</button>
+    <div id="workspace-controls">
+        <div id="import-export-controls" aria-label="ファイル管理">
+            <button id="import-btn" class="tool-btn" title="インポート">
+                <span class="icon"><img src="svgs/import_24dp_555555_FILL1_wght400_GRAD0_opsz24.svg" style="width: 24px; height: 24px;" /></span>
+            </button>
+            <button id="export-btn" class="tool-btn" title="エクスポート">
+                <span class="icon"><img src="svgs/export_24dp_555555_FILL1_wght400_GRAD0_opsz24.svg" style="width: 24px; height: 24px;" /></span>
+            </button>
+        </div>
+
+        <div id="zoom-controls" aria-label="ズーム">
+            <button id="zoom-in" class="tool-btn" title="拡大">＋</button>
+            <button id="zoom-out" class="tool-btn" title="縮小">－</button>
+        </div>
     </div>
 
     <div id="workspace-container">
@@ -39,66 +50,130 @@
     <template id="tpl-wall-outlet">
         <div class="node wall-outlet" data-type="outlet">
             <div class="node-header">
-                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M160-120v-480l320-240 320 240v480H560v-280H400v280H160Z"/></svg></span>
-                <input type="text" class="node-name" value="壁コンセント">
-                <button class="delete-btn" title="削除">×</button>
+                <div class="header-left">
+                    <span class="icon node-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M180-380q-42 0-71-29t-29-71q0-42 29-71t71-29q31 0 56 17t36 43h608v80H272q-11 26-36 43t-56 17Z"/></svg></span>
+                    <input type="text" class="node-name" value="出力のみ">
+                </div>
+                <div class="header-right">
+                    <button class="color-dropdown-btn" title="色を変更" style="background-color: #4CAF50;"></button>
+                    <button class="delete-btn" title="削除">×</button>
+                </div>
             </div>
-            <div class="node-body">
-                <div class="spec-row">
-                    <label>許容(W)</label>
-                    <input type="number" class="spec-value limit-input" value="1500" min="0">
+            <div class="node-options" style="display: none;">
+                <div class="color-palette">
+                    <button class="color-btn" data-color="#4CAF50" title="緑" style="background-color: #4CAF50;"></button>
+                    <button class="color-btn" data-color="#FF9800" title="オレンジ" style="background-color: #FF9800;"></button>
+                    <button class="color-btn" data-color="#2196F3" title="青" style="background-color: #2196F3;"></button>
+                    <button class="color-btn" data-color="#9C27B0" title="紫" style="background-color: #9C27B0;"></button>
+                    <button class="color-btn" data-color="#E91E63" title="ピンク" style="background-color: #E91E63;"></button>
+                    <button class="color-btn" data-color="#00BCD4" title="シアン" style="background-color: #00BCD4;"></button>
+                    <button class="color-btn" data-color="#795548" title="茶" style="background-color: #795548;"></button>
+                    <button class="color-btn" data-color="#607D8B" title="灰青" style="background-color: #607D8B;"></button>
                 </div>
-                <div class="status-row">
-                    <span>使用量:</span>
-                    <span class="current-load">0</span> W
-                </div>
+            </div>
+            <!-- Description Space -->
+            <div class="node-description">
+                <textarea class="description-input" placeholder="説明を入力..."></textarea>
             </div>
             <!-- Outputs (Sockets) -->
             <div class="sockets-container">
-                <div class="socket-port" title="差込口">
-                    <div class="port-point output-point"></div>
+                <div class="socket-port">
+                    <input type="text" class="port-label" placeholder="メモ" />
+                    <div class="port-type-selector">
+                        <span class="port-type-label">-</span>
+                        <span class="port-type-arrow">▼</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2px;">
+                        <div class="port-point output-point"></div>
+                        <button class="remove-socket-btn" title="削除">✕</button>
+                    </div>
+                    <div class="port-type-dropdown"></div>
                 </div>
                 <button class="add-socket-btn" title="差込口を追加">＋</button>
             </div>
-        </div>
+            <div class="resize-handle"></div>
     </template>
 
     <template id="tpl-power-strip">
         <div class="node power-strip" data-type="strip">
             <!-- Input (Plug) -->
             <div class="plug-container">
-                <div class="plug-port" title="プラグ（入力）">
-                    <div class="port-point input-point"></div>
+                <div class="plug-port" data-plugIndex="0">
+                    <div style="display: flex; align-items: center; gap: 2px;">
+                        <div class="port-point input-point"></div>
+                        <button class="remove-plug-btn" title="削除">✕</button>
+                    </div>
+                    <input type="text" class="port-label" placeholder="メモ" />
                 </div>
+                <button class="add-plug-btn" title="プラグを追加">＋</button>
             </div>
             <div class="node-header">
-                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M720-360v-80h80q17 0 28.5 11.5T840-400q0 17-11.5 28.5T800-360h-80Zm0 160v-80h80q17 0 28.5 11.5T840-240q0 17-11.5 28.5T800-200h-80Zm-160 40q-33 0-56.5-23.5T480-240h-80v-160h80q0-33 23.5-56.5T560-480h120v320H560ZM280-280q-66 0-113-47t-47-113q0-66 47-113t113-47h60q25 0 42.5-17.5T400-660q0-25-17.5-42.5T340-720H200q-17 0-28.5-11.5T160-760q0-17 11.5-28.5T200-800h140q58 0 99 41t41 99q0 58-41 99t-99 41h-60q-33 0-56.5 23.5T200-440q0 33 23.5 56.5T280-360h80v80h-80Z"/></svg></span>
-                <input type="text" class="node-name" value="タップ">
-                <button class="delete-btn" title="削除">×</button>
+                <div class="header-left">
+                    <span class="icon node-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M326-171q-15-11-22-28l-92-241H40v-80h228l92 244 184-485q7-17 22-28t34-11q19 0 34 11t22 28l92 241h172v80H692l-92-244-184 485q-7 17-22 28t-34 11q-19 0-34-11Z"/></svg></span>
+                    <input type="text" class="node-name" value="入力と出力">
+                </div>
+                <div class="header-right">
+                    <button class="color-dropdown-btn" title="色を変更" style="background-color: #FF9800;"></button>
+                    <button class="delete-btn" title="削除">×</button>
+                </div>
             </div>
-            <div class="node-body">
-                <div class="spec-row">
-                    <label>許容(W)</label>
-                    <input type="number" class="spec-value limit-input" value="1500" min="0">
+            <div class="node-options" style="display: none;">
+                <div class="color-palette">
+                    <button class="color-btn" data-color="#4CAF50" title="緑" style="background-color: #4CAF50;"></button>
+                    <button class="color-btn" data-color="#FF9800" title="オレンジ" style="background-color: #FF9800;"></button>
+                    <button class="color-btn" data-color="#2196F3" title="青" style="background-color: #2196F3;"></button>
+                    <button class="color-btn" data-color="#9C27B0" title="紫" style="background-color: #9C27B0;"></button>
+                    <button class="color-btn" data-color="#E91E63" title="ピンク" style="background-color: #E91E63;"></button>
+                    <button class="color-btn" data-color="#00BCD4" title="シアン" style="background-color: #00BCD4;"></button>
+                    <button class="color-btn" data-color="#795548" title="茶" style="background-color: #795548;"></button>
+                    <button class="color-btn" data-color="#607D8B" title="灰青" style="background-color: #607D8B;"></button>
                 </div>
-                <div class="status-row">
-                    <span>使用量:</span>
-                    <span class="current-load">0</span> W
-                </div>
+            </div>
+            <!-- Description Space -->
+            <div class="node-description">
+                <textarea class="description-input" placeholder="説明を入力..."></textarea>
             </div>
             <!-- Outputs (Sockets) -->
             <div class="sockets-container">
-                <div class="socket-port" title="差込口">
-                    <div class="port-point output-point"></div>
+                <div class="socket-port">
+                    <input type="text" class="port-label" placeholder="メモ" />
+                    <div class="port-type-selector">
+                        <span class="port-type-label">-</span>
+                        <span class="port-type-arrow">▼</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2px;">
+                        <div class="port-point output-point"></div>
+                        <button class="remove-socket-btn" title="削除">✕</button>
+                    </div>
+                    <div class="port-type-dropdown"></div>
                 </div>
-                <div class="socket-port" title="差込口">
-                    <div class="port-point output-point"></div>
+                <div class="socket-port">
+                    <input type="text" class="port-label" placeholder="メモ" />
+                    <div class="port-type-selector">
+                        <span class="port-type-label">-</span>
+                        <span class="port-type-arrow">▼</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2px;">
+                        <div class="port-point output-point"></div>
+                        <button class="remove-socket-btn" title="削除">✕</button>
+                    </div>
+                    <div class="port-type-dropdown"></div>
                 </div>
-                <div class="socket-port" title="差込口">
-                    <div class="port-point output-point"></div>
+                <div class="socket-port">
+                    <input type="text" class="port-label" placeholder="メモ" />
+                    <div class="port-type-selector">
+                        <span class="port-type-label">-</span>
+                        <span class="port-type-arrow">▼</span>
+                    </div>
+                    <div style="display: flex; align-items: center; gap: 2px;">
+                        <div class="port-point output-point"></div>
+                        <button class="remove-socket-btn" title="削除">✕</button>
+                    </div>
+                    <div class="port-type-dropdown"></div>
                 </div>
                 <button class="add-socket-btn" title="差込口を追加">＋</button>
             </div>
+            <div class="resize-handle"></div>
         </div>
     </template>
 
@@ -106,24 +181,55 @@
         <div class="node device" data-type="device">
             <!-- Input (Plug) -->
             <div class="plug-container">
-                <div class="plug-port" title="プラグ（入力）">
-                    <div class="port-point input-point"></div>
+                <div class="plug-port" data-plugIndex="0">
+                    <div style="display: flex; align-items: center; gap: 2px;">
+                        <div class="port-point input-point"></div>
+                        <button class="remove-plug-btn" title="削除">✕</button>
+                    </div>
+                    <input type="text" class="port-label" placeholder="メモ" />
                 </div>
+                <button class="add-plug-btn" title="プラグを追加">＋</button>
             </div>
             <div class="node-header">
-                <span class="icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M200-280q-33 0-56.5-23.5T120-360v-360q0-33 23.5-56.5T200-800h560q33 0 56.5 23.5T840-720H620q-58 0-99 41t-41 99v300H200Zm420 120q-25 0-42.5-17.5T560-220v-360q0-25 17.5-42.5T620-640h200q25 0 42.5 17.5T880-580v360q0 25-17.5 42.5T820-160H620Zm-540 0v-80h400v80H80Zm640-300q13 0 21.5-9t8.5-21q0-13-8.5-21.5T720-520q-12 0-21 8.5t-9 21.5q0 12 9 21t21 9Z"/></svg></span>
-                <input type="text" class="node-name" value="PC/家電">
-                <button class="delete-btn" title="削除">×</button>
-            </div>
-            <div class="node-body">
-                <div class="spec-row">
-                    <label>消費(W)</label>
-                    <input type="number" class="spec-value usage-input" value="100" min="0">
+                <div class="header-left">
+                    <span class="icon node-icon"><svg xmlns="http://www.w3.org/2000/svg" height="20px" viewBox="0 -960 960 960" width="20px" fill="#555"><path d="M780-380q-31 0-56-17t-36-43H80v-80h608q11-26 36-43t56-17q42 0 71 29t29 71q0 42-29 71t-71 29Z"/></svg></span>
+                    <input type="text" class="node-name" value="入力のみ">
+                </div>
+                <div class="header-right">
+                    <button class="color-dropdown-btn" title="色を変更" style="background-color: #2196F3;"></button>
+                    <button class="delete-btn" title="削除">×</button>
                 </div>
             </div>
+            <div class="node-options" style="display: none;">
+                <div class="color-palette">
+                    <button class="color-btn" data-color="#4CAF50" title="緑" style="background-color: #4CAF50;"></button>
+                    <button class="color-btn" data-color="#FF9800" title="オレンジ" style="background-color: #FF9800;"></button>
+                    <button class="color-btn" data-color="#2196F3" title="青" style="background-color: #2196F3;"></button>
+                    <button class="color-btn" data-color="#9C27B0" title="紫" style="background-color: #9C27B0;"></button>
+                    <button class="color-btn" data-color="#E91E63" title="ピンク" style="background-color: #E91E63;"></button>
+                    <button class="color-btn" data-color="#00BCD4" title="シアン" style="background-color: #00BCD4;"></button>
+                    <button class="color-btn" data-color="#795548" title="茶" style="background-color: #795548;"></button>
+                    <button class="color-btn" data-color="#607D8B" title="灰青" style="background-color: #607D8B;"></button>
+                </div>
+            </div>
+            <!-- Description Space -->
+            <div class="node-description">
+                <textarea class="description-input" placeholder="説明を入力..."></textarea>
+            </div>
+            <div class="resize-handle"></div>
         </div>
     </template>
 
-    <script src="scripts.js"></script>
+    <!-- スクリプト読み込み順（依存関係に基づく） -->
+    <script src="port-data.js"></script>     <!-- ポート型データ定義（最初に読み込む） -->
+    <script src="config.js"></script>        <!-- グローバル変数・定数 -->
+    <script src="utils.js"></script>         <!-- ユーティリティ関数 -->
+    <script src="cable.js"></script>         <!-- ケーブル接続管理 -->
+    <script src="port.js"></script>          <!-- ポート型ドロップダウン -->
+    <script src="node.js"></script>          <!-- ノード管理（port.js に依存） -->
+    <script src="ui.js"></script>            <!-- UI操作（node.jsに依存） -->
+    <script src="zoom-pan.js"></script>      <!-- ズーム・パンニング -->
+    <script src="storage.js"></script>       <!-- ストレージ操作（全関数に依存） -->
+    <script src="main.js"></script>          <!-- メイン初期化（全関数に依存） -->
 </body>
 </html>

@@ -1,0 +1,10 @@
+// ポート型データ（port.jsonから自動生成）
+const portTypeDataJSON = {
+  "USB系": ["USB Type-A", "USB Type-B", "USB Type-C", "Micro-USB Type-A", "Micro-USB Type-B", "Micro-USB Type-AB", "Mini-USB Type-A", "Mini-USB Type-B", "USB 3.0 Micro-B", "Lightning", "30-pin Dock Connector", "UC-E6"],
+  "映像接続系": ["HDMI", "Mini-HDMI", "Micro-HDMI", "DisplayPort", "Mini DisplayPort", "VGA", "DVI-D", "DVI-I", "DVI-A", "RCA Composite", "S-Video", "Component Video", "D-Terminal", "BNC", "SCART", "F-Connector", "Belling-Lee", "DFP", "P&D"],
+  "音声系": ["3.5mm TRS", "3.5mm TRRS", "6.3mm TS", "6.3mm TRS", "2.5mm TS", "2.5mm TRS", "4.4mm Pentaconn", "XLR 3-pin", "XLR 4-pin", "XLR 5-pin", "RCA Audio", "TOSLINK", "Mini-TOSLINK", "Digital Coaxial", "MIDI DIN-5", "Banana Plug", "Speakon", "Spade Lug", "DIN 8-pin", "Phono"],
+  "通信・ネットワーク系": ["RJ-45", "RJ-11", "RJ-12", "RJ-48", "SFP", "SFP+", "QSFP", "RS-232C", "RS-422", "RS-485", "IEEE1394a", "IEEE1394b", "SMA", "RP-SMA", "N-Connector", "MCX", "MMCX"],
+  "PC内部接続系": ["SATA", "eSATA", "SATA Express", "M.2", "PCI Express", "mSATA", "SAS", "U.2", "IDE", "Floppy Connector", "ATX 24-pin", "EPS12V", "PCIe Power 6-pin", "PCIe Power 8-pin", "12VHPWR"],
+  "電源系": ["NEMA 1-15", "NEMA 5-15", "IEC C13", "IEC C14", "IEC C7", "IEC C8", "IEC C5", "IEC C6", "IEC C19", "IEC C20", "DC Barrel Jack", "MagSafe 1", "MagSafe 2", "MagSafe 3", "Cigarette Lighter Receptacle", "XT60", "XT90", "Anderson Powerpole"],
+  "レガシー・産業系": ["PS/2", "ADB", "DB-25", "Centronics", "DE-15", "DA-15", "NuBus", "M12", "M8", "GX16", "LEMO", "Hirose 4-pin"]
+};
